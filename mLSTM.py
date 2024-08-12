@@ -37,12 +37,16 @@ class mLSTMBlock(nn.Module):
 
         k, q, v = self.Wkqv(x).chunk(3, dim=-1)
 
-        k = k / math.sqrt(k.size(-1))
+        # scaling k by root of the last dim to normalize
+        k = k / math.sqrt(k.size(-1)) 
 
-        C = f @ C_prev + i @ (v @ k.T) # cell state
-        n = f @ n_prev + i @ k # normalizer state
+        # update cell state
+        C = f.unsqueeze(2) * C_prev + i.unsqueeze(2) * (v.unsqueeze(2) @ k.unsqueeze(1))
 
-        h_hat = C @ q / torch.max(torch.abs(n.T @ q), 1)
+        # normalizer state
+        n = f @ n_prev + i @ k
+
+        h_hat = C @ q / torch.max(torch.abs(n.T @ q), torch.tensor(1.0))
         h = o * h_hat
 
         return h, C, n
