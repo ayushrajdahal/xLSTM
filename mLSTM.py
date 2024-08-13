@@ -2,17 +2,14 @@ import math
 import torch
 import torch.nn as nn
 from dataclasses import dataclass
+from LSTM import LSTMConfig
 
 @dataclass
-class mLSTMConfig:
+class mLSTMConfig(LSTMConfig):
     """
     Configuration for the mLSTM model.
     """
-    input_size: int
-    hidden_size: int
-    output_size: int
-    num_layers: int
-    dropout: float = 0.0
+    pass
 
 class mLSTMBlock(nn.Module):
     """

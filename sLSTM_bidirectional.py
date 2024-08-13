@@ -4,13 +4,23 @@ This module implements the BidirectionalSLSTM network, which extends the sLSTM n
 
 import torch
 import torch.nn as nn
-from sLSTM import sLSTMBlock, sLSTMConfig
+from sLSTM import sLSTMBlock
+from LSTM import LSTMConfig
+from dataclasses import dataclass
+
+@dataclass
+class BidirectionalSLSTMConfig(LSTMConfig):
+    """
+    Configuration for the bidirectional sLSTM model.
+    """
+    bidirectional: bool = True
+
 
 class BidirectionalSLSTM(nn.Module):
     """
     Bidirectional sLSTM network.
     """
-    def __init__(self, config: sLSTMConfig):
+    def __init__(self, config: BidirectionalSLSTMConfig):
         super().__init__()
         self.config = config
 

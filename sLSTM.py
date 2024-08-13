@@ -15,24 +15,13 @@ This module implements an enhanced version of the traditional LSTM with several 
 import torch
 import torch.nn as nn
 from dataclasses import dataclass
-
-@dataclass
-class sLSTMConfig:
-    """
-    Configuration for the sLSTM model.
-    """
-    input_size: int
-    hidden_size: int
-    output_size: int
-    num_layers: int
-    dropout: float = 0.0
-    bidirectional: bool = False
+from LSTM import LSTMConfig
 
 class sLSTMBlock(nn.Module):
     """
     A single block of the sLSTM network.
     """
-    def __init__(self, config: sLSTMConfig):
+    def __init__(self, config: LSTMConfig):
         super().__init__()
 
         # Dropout layer
@@ -88,7 +77,7 @@ class sLSTM(nn.Module):
     """
     The main sLSTM network.
     """
-    def __init__(self, config: sLSTMConfig):
+    def __init__(self, config: LSTMConfig):
         super().__init__()
         self.config = config
         self.lstm_blocks = nn.ModuleList([sLSTMBlock(config) for _ in range(config.num_layers)])

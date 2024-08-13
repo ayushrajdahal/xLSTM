@@ -18,7 +18,6 @@ class LSTMConfig:
     output_size: int
     num_layers: int
     dropout: float = 0.0
-    bidirectional: bool = False
 
 class LSTMBlock(nn.Module):
     """
